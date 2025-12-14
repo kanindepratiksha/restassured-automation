@@ -1,0 +1,30 @@
+package tests;
+
+import base.BaseTest;
+import io.restassured.http.ContentType;
+import org.testng.annotations.Test;
+import payloads.BookingPayload;
+import utils.APIPath;
+import utils.TestDataBuilder;
+
+import static io.restassured.RestAssured.given;
+
+public class UpdateBookingTest extends BaseTest {
+
+    @Test
+    public void updateBooking() {
+
+        BookingPayload body = TestDataBuilder.createBookingPayload();
+        body.firstname = "Prasenjit";
+
+        given()
+            .contentType(ContentType.JSON)
+            .cookie("token", AuthTokenTest.token)
+            .body(body)
+        .when()
+            .put(APIPath.BOOKING + CreateBookingTest.bookingId)
+        .then()
+            .statusCode(200)
+            .log().all();
+    }
+}

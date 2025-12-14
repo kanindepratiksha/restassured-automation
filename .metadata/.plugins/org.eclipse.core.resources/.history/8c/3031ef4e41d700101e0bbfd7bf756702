@@ -1,0 +1,33 @@
+package tests;
+
+import base.BaseTest;
+import io.restassured.http.ContentType;
+import org.testng.annotations.Test;
+import payloads.BookingPayload;
+import utils.TestDataBuilder;
+
+import static io.restassured.RestAssured.given;
+
+public class CreateBookingTest extends BaseTest {
+
+    public static int bookingId;
+	//public static String bookingId1;
+
+    @Test
+    public void createBooking() {
+
+        BookingPayload body = TestDataBuilder.createBookingPayload();
+
+        bookingId =
+            given()
+                .contentType(ContentType.JSON)
+                .body(body)
+            .when()
+                .post("/booking")
+            .then()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .path("bookingid");
+    }
+}

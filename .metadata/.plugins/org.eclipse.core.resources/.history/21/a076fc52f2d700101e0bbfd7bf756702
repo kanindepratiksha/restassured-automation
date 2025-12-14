@@ -1,0 +1,31 @@
+package tests;
+
+import base.BaseTest;
+import io.restassured.http.ContentType;
+import org.testng.annotations.Test;
+
+import static io.restassured.RestAssured.given;
+
+public class AuthTokenTest extends BaseTest {
+
+    public static String token;
+
+    @Test
+    public void createToken() {
+
+        String body = "{ \"username\": \"admin\", \"password\": \"password123\" }";
+
+        token =
+            given()
+                .contentType(ContentType.JSON)
+                .body(body)
+            .when()
+                .post("/auth")
+            .then()
+                .statusCode(200)
+                .extract()
+                .path("token");
+
+        System.out.println("Auth Token = " + token);
+    }
+}

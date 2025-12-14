@@ -1,0 +1,19 @@
+package tests;
+
+import base.BaseTest;
+import org.testng.annotations.Test;
+
+import static io.restassured.RestAssured.given;
+
+public class GetBookingTest extends BaseTest {
+
+    @Test
+    public void getBookingById() {
+        given()
+        .when()
+            .get("/booking/" + CreateBookingTest.bookingId)
+        .then()
+            .statusCode(200)
+            .log().all();
+    }
+}
